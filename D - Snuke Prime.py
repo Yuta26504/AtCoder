@@ -2,31 +2,30 @@ import io
 import sys
 
 _INPUT = """\
-2 6
-1 2 4
-2 2 4
+5 100000
+583563238 820642330 44577
+136809000 653199778 90962
+54601291 785892285 50554
+5797762 453599267 65697
+468677897 916692569 87409
 """
 sys.stdin = io.StringIO(_INPUT)
 # ---------------
 
+from collections import defaultdict
+
 N, C = map(int, input().split())
-abc = []
-cost = []
-day = []
-for i in range(N):
+d = defaultdict(int)
+
+for _ in range(N):
     a, b, c = map(int, input().split())
-    day.append(a)
-    day.append(b)
-    cost.append(c)
-    abc.append([a, b, c])
-total = [((i[1]-i[0])+1)*i[2] for i in abc]
-
-def search(a, b, c, d):
-    if a<=c<=b<=d:
-        return c,b
-
-days = search(day[0], day[1], day[2], day[3])
-test = (days[1] - days[0]) * cost[0])+((days[1] - days[0]) * cost[1]
-if test >= C:
-
-print()
+    d[a] += c
+    d[b+1] -= c
+ans = 0
+cost = 0
+before = 0
+for now in sorted(d):
+    ans += min(cost, C) * (now - before) # お金×日数
+    cost += d[now]
+    before = now
+print(ans)
